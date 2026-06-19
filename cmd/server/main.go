@@ -11,6 +11,7 @@ import (
 	"github.com/muratonuryahsi-sudo/swe-workshop/internal/ausweis"
 	"github.com/muratonuryahsi-sudo/swe-workshop/internal/config"
 	"github.com/muratonuryahsi-sudo/swe-workshop/internal/db"
+	"github.com/muratonuryahsi-sudo/swe-workshop/internal/mitglied"
 )
 
 func main() {
@@ -26,10 +27,12 @@ func main() {
 	// Repositories
 	ausweisRepo := ausweis.NewRepository(database)
 	ausleiheRepo := ausleihe.NewRepository(database)
+	mitgliedRepo := mitglied.NewRepository(database)
 
 	// Services
 	ausweisSvc := ausweis.NewService(ausweisRepo)
 	ausleiheSvc := ausleihe.NewService(ausleiheRepo)
+	mitgliedSvc := mitglied.NewService(mitgliedRepo)
 
 	// Router
 	r := chi.NewRouter()
@@ -38,8 +41,7 @@ func main() {
 
 	r.Mount("/ausweis", ausweis.Router(ausweisSvc))
 	r.Mount("/ausleihe", ausleihe.Router(ausleiheSvc))
-
-	// TODO: r.Mount("/mitglied", mitglied.Router(mitgliedSvc)) -- Murat
+	r.Mount("/mitglied", mitglied.Router(mitgliedSvc))
 
 	addr := fmt.Sprintf(":%s", cfg.Port)
 	log.Printf("Server laeuft auf %s", addr)
