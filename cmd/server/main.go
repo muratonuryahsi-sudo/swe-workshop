@@ -61,8 +61,8 @@ func main() {
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
 
-	r.Mount("/ausweis", ausweis.Router(ausweisSvc))
-	r.Mount("/ausleihe", ausleihe.Router(ausleiheSvc))
+	r.Mount("/ausweis", ausweis.Router(ausweisSvc, authMiddleware))
+	r.Mount("/ausleihe", ausleihe.Router(ausleiheSvc, authMiddleware))
 	r.Mount("/mitglied", mitglied.Router(mitgliedSvc, authMiddleware))
 
 	addr := fmt.Sprintf(":%s", cfg.Port)

@@ -10,12 +10,20 @@ import (
 )
 
 // Router registriert alle Ausleihe-Endpunkte an den gegebenen chi-Router.
-func Router(svc *Service) http.Handler {
+// authMiddleware schuetzt das Neuanlegen (POST) und kann nil sein, wenn keine
+// Authentifizierung gewuenscht ist (z.B. in Tests ohne laufendes Keycloak).
+func Router(svc *Service, authMiddleware func(http.Handler) http.Handler) http.Handler {
 	r := chi.NewRouter()
 
 	r.Get("/{id}", getByID(svc))
 	r.Get("/mitglied/{mitgliedID}", getByMitgliedID(svc))
-	r.Post("/", create(svc))
+
+	if authMiddleware != nil {
+		r.With(authMiddleware).Post("/", create(svc))
+	} else {
+		r.Post("/", create(svc))
+	}
+
 	r.Put("/{id}", update(svc))
 	r.Delete("/{id}", delete(svc))
 
