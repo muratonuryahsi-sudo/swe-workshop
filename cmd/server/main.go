@@ -24,9 +24,12 @@ func main() {
 		log.Fatalf("Datenbankverbindung fehlgeschlagen: %v", err)
 	}
 
-	// Datenbank befüllen
-	if err := db.Populate(database); err != nil {
-		log.Fatalf("Datenbank-Populate fehlgeschlagen: %v", err)
+	// Datenbank befüllen (nur wenn explizit über DB_POPULATE=true angefordert,
+	// da dies die bestehenden Daten löscht)
+	if cfg.DBPopulate {
+		if err := db.Populate(database); err != nil {
+			log.Fatalf("Datenbank-Populate fehlgeschlagen: %v", err)
+		}
 	}
 
 	// Repositories
