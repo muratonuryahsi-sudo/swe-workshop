@@ -1,0 +1,42 @@
+# syntax=docker.io/docker/dockerfile-upstream:1.24.0
+# check=error=true
+
+ARG GO_VERSION=1.25
+
+# Stage 1: Go-Binary kompilieren
+# Debian-Variante (glibc) statt Alpine (musl), da das finale
+# Chainguard-Image glibc verwendet.
+FROM golang:${GO_VERSION}-bookworm AS build
+
+WORKDIR /app
+
+RUN --mount=type=bind,source=go.mod,target=go.mod \
+  --mount=type=bind,source=go.sum,target=go.sum \
+  --mount=type=cache,target=/root/.cache/go-build \
+  go mod download
+
+# Statisches Binary bauen (kein CGO, keine glibc-Abhaengigkeit im finalen Image)
+RUN --mount=type=bind,source=.,target=. \
+  --mount=type=cache,target=/root/.cache/go-build \
+  CGO_ENABLED=0 GOOS=linux go build -o /app/server ./cmd/server
+
+# Stage 2: Finales gehaertetes Image
+# Minimales Chainguard-Image, ohne Shell und Package Manager.
+# User "nonroot" (UID 65532) ist im Image bereits vorhanden.
+FROM cgr.dev/chainguard/static:latest AS final
+
+WORKDIR /opt/app
+
+COPY --from=build /app/server ./server
+
+# Laufzeit-Konfiguration via Umgebungsvariablen (siehe internal/config/config.go)
+# Keine Defaults hier - Werte werden beim "docker run -e ..." uebergeben
+ENV DATABASE_URL="" \
+  PORT="" \
+  DB_POPULATE=""
+
+USER nonroot
+
+EXPOSE 8080
+
+ENTRYPOINT ["/opt/app/server"]
