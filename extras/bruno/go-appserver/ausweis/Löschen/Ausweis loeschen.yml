@@ -1,0 +1,22 @@
+info:
+  name: Ausweis loeschen
+  type: http
+  seq: 1
+
+http:
+  method: DELETE
+  url: "{{ausweisUrl}}/:id"
+  params:
+    - name: id
+      value: "1"
+      type: path
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "204"
+
+settings:
+  encodeUrl: true
+  followRedirects: true

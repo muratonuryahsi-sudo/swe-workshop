@@ -1,0 +1,22 @@
+info:
+  name: Ausweis mit nicht-vorhandener ID loeschen
+  type: http
+  seq: 2
+
+http:
+  method: DELETE
+  url: "{{ausweisUrl}}/:id"
+  params:
+    - name: id
+      value: "999999"
+      type: path
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "404"
+
+settings:
+  encodeUrl: true
+  followRedirects: true
