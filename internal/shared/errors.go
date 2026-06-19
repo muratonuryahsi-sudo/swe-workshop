@@ -31,3 +31,22 @@ type VersionOutdatedError struct {
 func (e *VersionOutdatedError) Error() string {
 	return fmt.Sprintf("%s mit ID %v wurde zwischenzeitlich geaendert (Version veraltet)", e.Resource, e.ID)
 }
+
+// UnauthorizedError zeigt an, dass kein gueltiger Bearer-Token vorhanden ist.
+type UnauthorizedError struct {
+	Message string
+}
+
+func (e *UnauthorizedError) Error() string {
+	return e.Message
+}
+
+// ForbiddenError zeigt an, dass der Token zwar gueltig ist, aber die
+// erforderliche Rolle fehlt.
+type ForbiddenError struct {
+	Message string
+}
+
+func (e *ForbiddenError) Error() string {
+	return e.Message
+}

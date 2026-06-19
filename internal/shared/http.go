@@ -25,6 +25,8 @@ func WriteError(w http.ResponseWriter, err error) {
 	var notFound *NotFoundError
 	var validation *ValidationError
 	var versionOutdated *VersionOutdatedError
+	var unauthorized *UnauthorizedError
+	var forbidden *ForbiddenError
 
 	status := http.StatusInternalServerError
 	switch {
@@ -34,6 +36,10 @@ func WriteError(w http.ResponseWriter, err error) {
 		status = http.StatusUnprocessableEntity
 	case errors.As(err, &versionOutdated):
 		status = http.StatusConflict
+	case errors.As(err, &unauthorized):
+		status = http.StatusUnauthorized
+	case errors.As(err, &forbidden):
+		status = http.StatusForbidden
 	}
 
 	WriteJSON(w, status, errorResponse{Message: err.Error()})
