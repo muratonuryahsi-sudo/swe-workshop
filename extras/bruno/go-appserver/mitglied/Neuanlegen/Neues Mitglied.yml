@@ -5,11 +5,9 @@ info:
 
 http:
   method: POST
-  url: "{{baseUrl}}/mitglied/"
+  url: "{{mitgliedUrl}}/"
   headers:
     - name: Content-Type
-      value: application/json
-    - name: Accept
       value: application/json
   body:
     type: json
@@ -25,6 +23,7 @@ http:
         "beitrittsdatum": "2024-03-01T00:00:00Z",
         "interessen": ["Lesen", "Sport"]
       }
+  auth: inherit
 
 runtime:
   assertions:
@@ -36,4 +35,6 @@ runtime:
 
 settings:
   encodeUrl: true
+  timeout: 0
   followRedirects: true
+  maxRedirects: 5

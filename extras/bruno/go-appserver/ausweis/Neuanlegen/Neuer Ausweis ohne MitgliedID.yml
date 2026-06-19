@@ -9,8 +9,6 @@ http:
   headers:
     - name: Content-Type
       value: application/json
-    - name: Accept
-      value: application/json
   body:
     type: json
     data: |-
@@ -18,6 +16,7 @@ http:
         "ausstellungsdatum": "2024-01-01T00:00:00Z",
         "ablaufdatum": "2026-01-01T00:00:00Z"
       }
+  auth: inherit
 
 runtime:
   assertions:
@@ -27,4 +26,6 @@ runtime:
 
 settings:
   encodeUrl: true
+  timeout: 0
   followRedirects: true
+  maxRedirects: 5

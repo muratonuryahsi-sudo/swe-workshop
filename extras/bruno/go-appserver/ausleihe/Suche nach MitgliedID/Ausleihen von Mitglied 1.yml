@@ -13,13 +13,19 @@ http:
     - name: mitgliedID
       value: "1"
       type: path
+  auth: inherit
 
 runtime:
   assertions:
     - expression: res.status
       operator: eq
       value: "200"
+    - expression: res.headers['content-type']
+      operator: matches
+      value: ^application\/json(; charset=utf-8)?$
 
 settings:
   encodeUrl: true
+  timeout: 0
   followRedirects: true
+  maxRedirects: 5

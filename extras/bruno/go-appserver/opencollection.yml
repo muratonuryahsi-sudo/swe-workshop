@@ -7,10 +7,6 @@ request:
   variables:
     - name: baseUrl
       value: http://localhost:8080
-    - name: ausweisUrl
-      value: "{{baseUrl}}/ausweis"
-    - name: ausleiheUrl
-      value: "{{baseUrl}}/ausleihe"
 
 bundled: false
 extensions:

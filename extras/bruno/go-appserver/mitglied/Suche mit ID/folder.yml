@@ -1,0 +1,11 @@
+info:
+  name: Suche mit ID
+  type: folder
+  seq: 2
+
+request:
+  auth: inherit
+
+docs:
+  content: Mitglied anhand seiner ID suchen.
+  type: text/markdown

@@ -1,0 +1,10 @@
+info:
+  name: mitglied
+  type: folder
+  seq: 3
+
+request:
+  auth: inherit
+  variables:
+    - name: mitgliedUrl
+      value: "{{baseUrl}}/mitglied"

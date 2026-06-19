@@ -1,0 +1,11 @@
+info:
+  name: Suche mit ID
+  type: folder
+  seq: 1
+
+request:
+  auth: inherit
+
+docs:
+  content: Ausleihe anhand ihrer ID suchen.
+  type: text/markdown

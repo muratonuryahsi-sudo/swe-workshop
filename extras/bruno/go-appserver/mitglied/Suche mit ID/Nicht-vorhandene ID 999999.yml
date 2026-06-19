@@ -5,7 +5,7 @@ info:
 
 http:
   method: GET
-  url: "{{baseUrl}}/mitglied/:id"
+  url: "{{mitgliedUrl}}/:id"
   headers:
     - name: Accept
       value: application/json
@@ -13,6 +13,7 @@ http:
     - name: id
       value: "999999"
       type: path
+  auth: inherit
 
 runtime:
   assertions:
@@ -22,4 +23,6 @@ runtime:
 
 settings:
   encodeUrl: true
+  timeout: 0
   followRedirects: true
+  maxRedirects: 5

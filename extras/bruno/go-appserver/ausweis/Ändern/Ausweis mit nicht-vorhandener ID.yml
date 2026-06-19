@@ -9,8 +9,6 @@ http:
   headers:
     - name: Content-Type
       value: application/json
-    - name: Accept
-      value: application/json
   params:
     - name: id
       value: "999999"
@@ -23,6 +21,7 @@ http:
         "ablaufdatum": "2028-06-01T00:00:00Z",
         "mitglied_id": 1
       }
+  auth: inherit
 
 runtime:
   assertions:
@@ -32,4 +31,6 @@ runtime:
 
 settings:
   encodeUrl: true
+  timeout: 0
   followRedirects: true
+  maxRedirects: 5
