@@ -24,6 +24,11 @@ func main() {
 		log.Fatalf("Datenbankverbindung fehlgeschlagen: %v", err)
 	}
 
+	// Datenbank befüllen
+	if err := db.Populate(database); err != nil {
+		log.Fatalf("Datenbank-Populate fehlgeschlagen: %v", err)
+	}
+
 	// Repositories
 	ausweisRepo := ausweis.NewRepository(database)
 	ausleiheRepo := ausleihe.NewRepository(database)
