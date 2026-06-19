@@ -1,11 +1,11 @@
 info:
-  name: Ausweis 1 aendern
+  name: Mitglied 1 aendern
   type: http
   seq: 1
 
 http:
   method: PUT
-  url: "{{ausweisUrl}}/:id"
+  url: "{{mitgliedUrl}}/:id"
   headers:
     - name: Content-Type
       value: application/json
@@ -17,9 +17,13 @@ http:
     type: json
     data: |-
       {
-        "ausstellungsdatum": "2024-06-01T00:00:00Z",
-        "ablaufdatum": "2028-06-01T00:00:00Z",
-        "mitglied_id": 1
+        "vorname": "Max",
+        "nachname": "Mustermann",
+        "email": "max.mustermann@example.com",
+        "telefonnummer": "0721-999999",
+        "geschlecht": "MAENNLICH",
+        "mitgliedsstatus": "AKTIV",
+        "beitrittsdatum": "2024-01-01T00:00:00Z"
       }
   auth: inherit
 
@@ -28,9 +32,6 @@ runtime:
     - expression: res.status
       operator: eq
       value: "200"
-    - expression: res.body.id
-      operator: eq
-      value: "1"
 
 settings:
   encodeUrl: true
