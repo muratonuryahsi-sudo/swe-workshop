@@ -30,3 +30,17 @@ func (r *Repository) FindByID(id uint) (*Mitglied, error) {
 	}
 	return &mitglied, nil
 }
+
+// FindAll lädt alle Mitglieder.
+func (r *Repository) FindAll() ([]Mitglied, error) {
+	var mitglieder []Mitglied
+	if err := r.db.Find(&mitglieder).Error; err != nil {
+		return nil, err
+	}
+	return mitglieder, nil
+}
+
+// Create speichert ein neues Mitglied in der Datenbank.
+func (r *Repository) Create(mitglied *Mitglied) error {
+	return r.db.Create(mitglied).Error
+}
