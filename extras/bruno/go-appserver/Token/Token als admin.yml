@@ -15,9 +15,9 @@ http:
       - name: grant_type
         value: password
       - name: client_id
-        value: go-client
+        value: "{{clientId}}"
       - name: client_secret
-        value: changeme-go-client-secret
+        value: "{{clientSecret}}"
       - name: username
         value: admin
       - name: password
