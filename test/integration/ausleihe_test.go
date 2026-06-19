@@ -24,7 +24,7 @@ func setupAusleiheServer(t *testing.T) *httptest.Server {
 	}
 	repo := ausleihe.NewRepository(database)
 	svc := ausleihe.NewService(repo)
-	return httptest.NewServer(ausleihe.Router(svc))
+	return httptest.NewServer(ausleihe.Router(svc, nil))
 }
 
 func TestAusleiheCreate(t *testing.T) {

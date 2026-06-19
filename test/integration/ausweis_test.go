@@ -24,7 +24,7 @@ func setupAusweisServer(t *testing.T) *httptest.Server {
 	}
 	repo := ausweis.NewRepository(database)
 	svc := ausweis.NewService(repo)
-	return httptest.NewServer(ausweis.Router(svc))
+	return httptest.NewServer(ausweis.Router(svc, nil))
 }
 
 func TestAusweisCreate(t *testing.T) {
