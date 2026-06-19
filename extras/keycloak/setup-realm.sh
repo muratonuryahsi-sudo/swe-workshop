@@ -18,10 +18,8 @@ echo "Keycloak ist bereit."
 
 # Admin-Token vom Master-Realm holen
 TOKEN=$(curl -s -X POST "$KC_URL/realms/master/protocol/openid-connect/token" \
-  -d "client_id=admin-cli" \
-  -d "username=$KC_ADMIN_USERNAME" \
-  -d "password=$KC_ADMIN_PASSWORD" \
-  -d "grant_type=password" | jq -r '.access_token')
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "client_id=admin-cli&username=$KC_ADMIN_USERNAME&password=$KC_ADMIN_PASSWORD&grant_type=password" | jq -r '.access_token')
 
 if [ -z "$TOKEN" ] || [ "$TOKEN" = "null" ]; then
   echo "Fehler: Konnte keinen Admin-Token holen." >&2
