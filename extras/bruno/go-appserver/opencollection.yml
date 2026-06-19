@@ -4,9 +4,42 @@ info:
   name: go-appserver
 
 request:
+  auth:
+    type: oauth2
+    flow: resource_owner_password_credentials
+    accessTokenUrl: "{{tokenUrl}}"
+    credentials:
+      clientId: "{{clientId}}"
+      clientSecret: "{{clientSecret}}"
+      placement: body
+    resourceOwner:
+      username: "{{username}}"
+      password: "{{password}}"
+    tokenConfig:
+      id: credentials
+      placement:
+        header: Bearer
+      source: access_token
+    settings:
+      autoFetchToken: true
+      autoRefreshToken: false
   variables:
     - name: baseUrl
       value: http://localhost:8080
+    - name: keycloakUrl
+      value: http://localhost:8880
+    - name: realm
+      value: go
+    - name: tokenUrl
+      value: "{{keycloakUrl}}/realms/{{realm}}/protocol/openid-connect/token"
+    - name: clientId
+      value: go-client
+    - name: clientSecret
+      value: changeme-go-client-secret
+    - name: username
+      value: admin
+    - name: password
+      value: p
 
 bundled: false
 extensions:

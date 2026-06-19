@@ -2,3 +2,17 @@ name: local
 variables:
   - name: baseUrl
     value: http://localhost:8080
+  - name: keycloakUrl
+    value: http://localhost:8880
+  - name: realm
+    value: go
+  - name: tokenUrl
+    value: "{{keycloakUrl}}/realms/{{realm}}/protocol/openid-connect/token"
+  - name: clientId
+    value: go-client
+  - name: clientSecret
+    value: changeme-go-client-secret
+  - name: username
+    value: admin
+  - name: password
+    value: p
