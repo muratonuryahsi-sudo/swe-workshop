@@ -10,8 +10,8 @@ variables:
     value: "{{keycloakUrl}}/realms/{{realm}}/protocol/openid-connect/token"
   - name: clientId
     value: go-client
-  - name: clientSecret
-    value: changeme-go-client-secret
+  - secret: true
+    name: clientSecret
   - name: username
     value: admin
   - name: password

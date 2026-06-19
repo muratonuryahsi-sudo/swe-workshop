@@ -7,17 +7,22 @@ http:
   method: POST
   url: "{{tokenUrl}}"
   headers:
-    - name: ""
-      value: ""
-      disabled: true
+    - name: Content-Type
+      value: application/x-www-form-urlencoded
   body:
     type: form-urlencoded
     data:
+      - name: grant_type
+        value: password
+      - name: client_id
+        value: "{{clientId}}"
+      - name: client_secret
+        value: "{{clientSecret}}"
       - name: username
         value: user
       - name: password
         value: FALSCH
-  auth: inherit
+  auth: none
 
 runtime:
   assertions:
