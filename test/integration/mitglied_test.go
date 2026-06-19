@@ -25,7 +25,7 @@ func setupMitgliedServer(t *testing.T) *httptest.Server {
 	}
 	repo := mitglied.NewRepository(database)
 	svc := mitglied.NewService(repo)
-	return httptest.NewServer(mitglied.Router(svc))
+	return httptest.NewServer(mitglied.Router(svc, nil))
 }
 
 func TestMitgliedCreate(t *testing.T) {

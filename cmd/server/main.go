@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
@@ -12,6 +13,7 @@ import (
 	"github.com/muratonuryahsi-sudo/swe-workshop/internal/config"
 	"github.com/muratonuryahsi-sudo/swe-workshop/internal/db"
 	"github.com/muratonuryahsi-sudo/swe-workshop/internal/mitglied"
+	"github.com/muratonuryahsi-sudo/swe-workshop/internal/security"
 )
 
 func main() {
@@ -42,6 +44,18 @@ func main() {
 	ausleiheSvc := ausleihe.NewService(ausleiheRepo)
 	mitgliedSvc := mitglied.NewService(mitgliedRepo)
 
+	// Auth-Middleware fuer das Neuanlegen (nur wenn AUTH_ENABLED=true, da OIDC
+	// laut Aufgabenstellung optional ist)
+	var authMiddleware func(http.Handler) http.Handler
+	if cfg.AuthEnabled {
+		kcCfg := security.LoadKeycloakConfig()
+		verifier, err := security.NewVerifier(context.Background(), kcCfg)
+		if err != nil {
+			log.Fatalf("Keycloak-Verifizierer konnte nicht erstellt werden: %v", err)
+		}
+		authMiddleware = security.RolesRequired(verifier, kcCfg.ClientID, "admin", "user")
+	}
+
 	// Router
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
@@ -49,7 +63,7 @@ func main() {
 
 	r.Mount("/ausweis", ausweis.Router(ausweisSvc))
 	r.Mount("/ausleihe", ausleihe.Router(ausleiheSvc))
-	r.Mount("/mitglied", mitglied.Router(mitgliedSvc))
+	r.Mount("/mitglied", mitglied.Router(mitgliedSvc, authMiddleware))
 
 	addr := fmt.Sprintf(":%s", cfg.Port)
 	log.Printf("Server laeuft auf %s", addr)
