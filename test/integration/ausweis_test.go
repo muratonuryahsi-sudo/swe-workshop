@@ -34,7 +34,7 @@ func TestAusweisCreate(t *testing.T) {
 	input := ausweis.AusweisInput{
 		Ausstellungsdatum: time.Date(2024, 1, 1, 0, 0, 0, 0, time.UTC),
 		Ablaufdatum:       time.Date(2026, 1, 1, 0, 0, 0, 0, time.UTC),
-		MitgliedID:        1,
+		MitgliedID:        createTestMitglied(t),
 	}
 	body, _ := json.Marshal(input)
 
@@ -68,7 +68,7 @@ func TestAusweisGetByID(t *testing.T) {
 	input := ausweis.AusweisInput{
 		Ausstellungsdatum: time.Date(2024, 2, 1, 0, 0, 0, 0, time.UTC),
 		Ablaufdatum:       time.Date(2027, 2, 1, 0, 0, 0, 0, time.UTC),
-		MitgliedID:        2,
+		MitgliedID:        createTestMitglied(t),
 	}
 	body, _ := json.Marshal(input)
 	postResp, err := http.Post(srv.URL+"/", "application/json", bytes.NewReader(body))

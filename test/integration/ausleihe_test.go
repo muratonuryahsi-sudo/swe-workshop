@@ -34,7 +34,7 @@ func TestAusleiheCreate(t *testing.T) {
 	input := ausleihe.AusleiheInput{
 		Ausleihdatum:   time.Date(2024, 3, 1, 0, 0, 0, 0, time.UTC),
 		Rueckgabedatum: time.Date(2024, 3, 15, 0, 0, 0, 0, time.UTC),
-		MitgliedID:     1,
+		MitgliedID:     createTestMitglied(t),
 	}
 	body, _ := json.Marshal(input)
 
@@ -68,7 +68,7 @@ func TestAusleiheGetByID(t *testing.T) {
 	input := ausleihe.AusleiheInput{
 		Ausleihdatum:   time.Date(2024, 4, 1, 0, 0, 0, 0, time.UTC),
 		Rueckgabedatum: time.Date(2024, 4, 20, 0, 0, 0, 0, time.UTC),
-		MitgliedID:     2,
+		MitgliedID:     createTestMitglied(t),
 	}
 	body, _ := json.Marshal(input)
 	postResp, err := http.Post(srv.URL+"/", "application/json", bytes.NewReader(body))
